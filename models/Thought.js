@@ -72,7 +72,7 @@ const reactionSchema = new Schema(
   }
 );
 
-// Total count of reactions
+// Retrieve length of thought's reactions
 thoughtSchema.virtual("reactionCount").get(function () {
   return this.reactions.lengths;
 });

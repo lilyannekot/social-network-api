@@ -39,8 +39,23 @@ module.exports = {
         !user
           ? res
               .status(404)
-              .json({ message: "No user could be found with that id " })
+              .json({ message: "No user could be found with that id" })
           : res.json(user)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
+  // Delete a user
+  deleteUser(req, res) {
+    User.findOneAndDelete({ _id: req.params.userId })
+      .then((user) =>
+        !user
+          ? res
+              .status(404)
+              .json({ message: "No user could be found with that id" })
+          : Thought.deleteMany({ _id: { $in: user.thoughts } })
+      )
+      .then(() =>
+        res.json({ message: "The user and thoughts have been deleted" })
       )
       .catch((err) => res.status(500).json(err));
   },
