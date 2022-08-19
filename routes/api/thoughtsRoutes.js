@@ -11,6 +11,6 @@ const {
 } = require("../../controllers/thoughtControllers");
 
 // Get all thoughts
-router.route("/").get(getAllThoughts);
+router.route("/").get(getAllThoughts).post(createThought);
 
-router.route("/:id").get(getThoughtById);
+router.route("/:id").get(getThoughtById).put(updateThought).delete(deletethought);
