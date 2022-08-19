@@ -10,8 +10,8 @@ module.exports = {
   // Get single thought by id
   getThoughtById(req, res) {
     Thought.findOne({ _id: req.params.thoughtId })
-      .then((thought) =>
-        !thought
+      .then((thoughts) =>
+        !thoughts
           ? res
               .status(404)
               .json({ message: "No thought could be found with that id" })
@@ -21,10 +21,10 @@ module.exports = {
   },
   // Create a new thought
   createThought(req, res) {
-    Thought.create(req.body).then((thoughts) => {
+    Thought.create(req.body).then(({ _id }) => {
       return User.findOneAndUpdate(
         { username: req.body.id },
-        { $push: { thoughts: thoughts._id } },
+        { $push: { thoughts: _id } },
         { new: true }
       )
         .then((user) => {
@@ -52,7 +52,7 @@ module.exports = {
         !user
           ? res
               .status(404)
-              .json({ message: "No user could be found with that id" })
+              .json({ message: "No thought could be found with that id" })
           : res.json(user)
       )
       .catch((err) => res.status(500).json(err));
@@ -60,8 +60,8 @@ module.exports = {
   // Delete an existing thought
   deleteThought(req, res) {
     Thought.findOneAndDelete({ _id: req.params.thoughtId })
-      .then((thought) =>
-        !thought
+      .then((thoughts) =>
+        !thoughts
           ? res
               .status(404)
               .json({ message: "No thought could be found with this id" })

@@ -10,8 +10,7 @@ module.exports = {
   // Get a single user by ID
   getUserById(req, res) {
     User.findOne({ _id: req.params.id })
-      .populate("friends")
-      .populate("thoughts")
+      // .populate("thoughts")
       .then((user) =>
         !user
           ? res
